@@ -19,6 +19,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import org.json.JSONObject;
+import org.json.JSONStringer;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONArray;
@@ -41,6 +42,16 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 
 public class MainActivity extends AppCompatActivity {
+
+    public String sunRise;
+    public String sunSet;
+    public String dayLength;
+
+    public String latitudeInput;
+    public String longitudeInput;
+
+    public MainActivity() throws JSONException {
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    String json;
+    JSONObject json;
     public void startAPICall() {
         try {
             JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
@@ -97,7 +108,7 @@ public class MainActivity extends AppCompatActivity {
                     new Response.Listener<JSONObject>() {
                         @Override
                         public void onResponse(final JSONObject response) {
-                            json = response.toString();
+                            json = response;
                         }
                     }, new Response.ErrorListener() {
                 @Override
@@ -108,5 +119,26 @@ public class MainActivity extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    JSONObject result;
+    {
+        try {
+            result = json.getJSONObject("results");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+    public String getSunRise() throws JSONException {
+        sunRise = result.getString("sunrise");
+        return sunRise;
+    }
+    public String getSunSet() throws JSONException {
+        sunSet = result.getString("sunset");
+        return sunSet;
+    }
+    public String getDayLength() throws JSONException {
+        dayLength = result.getString("day_length");
+        return dayLength;
     }
 }
