@@ -19,6 +19,26 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import org.json.JSONObject;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.json.JSONArray;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import java.io.UnsupportedEncodingException;
+import java.net.URL;
+import java.net.URLEncoder;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -67,22 +87,21 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public String startAPICall() {
+    String json;
+    public void startAPICall() {
         try {
             JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
                     Request.Method.GET,
-                    "https://maps.googleapis.com/maps/api/directions/json?origin=" + urlSTART + "&destination=" + urlEND + "&key=" + YOUR_API_KEY,
+                    "https://api.sunrise-sunset.org/json?lat=36.7201600&lng=-4.4203400",
                     null,
                     new Response.Listener<JSONObject>() {
                         @Override
                         public void onResponse(final JSONObject response) {
-                            Log.d(TAG, response.toString());
-                            returnJson = response.toString();
+                            json = response.toString();
                         }
                     }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(final VolleyError error) {
-                    Log.w(TAG, error.toString());
                 }
             });
             //RequestQueue.add(jsonObjectRequest);
