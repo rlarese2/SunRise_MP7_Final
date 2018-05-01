@@ -63,10 +63,8 @@ public class MainActivity extends AppCompatActivity {
     /** Request queue for our API requests. */
     private static RequestQueue requestQueue;
 
-    /**
     public MainActivity() throws JSONException {
-    }
-     */
+     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,6 +81,7 @@ public class MainActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
                 try {
                     startAPICall();
+                    /**
                     String sunriseTxt = getSunRise();
                     String sunsetTxt = getSunset();
                     String daylengthTxt = getDayLength();
@@ -92,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
                     SET.setText(sunsetTxt);
                     RISE.setText(sunsetTxt);
                     LENGTH.setText(daylengthTxt);
-
+                     */
                 } catch(Exception e) {
                     Snackbar.make(view, "Please re-enter the Coordinates", Snackbar.LENGTH_LONG)
                             .setAction("Action", null).show();
@@ -144,6 +143,7 @@ public class MainActivity extends AppCompatActivity {
             requestQueue.add(jsonObjectRequest);
         } catch (Exception e) {
             e.printStackTrace();
+            Toast.makeText(MainActivity.this, "Error", Toast.LENGTH_LONG).show();
         }
     }
 
