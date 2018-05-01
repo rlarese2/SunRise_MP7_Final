@@ -104,7 +104,6 @@ public class MainActivity extends AppCompatActivity {
         if (id == R.id.action_settings) {
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -134,13 +133,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
     JSONObject result;
-    {
+    public JSONObject getResult() {
         try {
             result = json.getJSONObject("results");
+            return result;
         } catch (JSONException e) {
             e.printStackTrace();
         }
+        return null;
     }
+
     public String getSunRise() throws JSONException {
         sunRise = result.getString("sunrise");
         return sunRise;
