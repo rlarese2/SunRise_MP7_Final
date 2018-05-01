@@ -13,6 +13,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.ProgressBar;
@@ -49,6 +50,10 @@ public class MainActivity extends AppCompatActivity {
     public String sunSet;
     public String dayLength;
 
+    TextView RISE;
+    TextView SET;
+    TextView LENGTH;
+
     public String latitudeInput;
     public String longitudeInput;
 
@@ -78,6 +83,16 @@ public class MainActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
                 try {
                     startAPICall();
+                    String sunriseTxt = getSunRise();
+                    String sunsetTxt = getSunset();
+                    String daylengthTxt = getDayLength();
+                    SET = (TextView) findViewById(R.id.Sunset);
+                    RISE = (TextView) findViewById(R.id.Sunrise);
+                    LENGTH = (TextView) findViewById(R.id.Daylength);
+                    SET.setText(sunsetTxt);
+                    RISE.setText(sunsetTxt);
+                    LENGTH.setText(daylengthTxt);
+
                 } catch(Exception e) {
                     Snackbar.make(view, "Please re-enter the Coordinates", Snackbar.LENGTH_LONG)
                             .setAction("Action", null).show();
@@ -147,7 +162,7 @@ public class MainActivity extends AppCompatActivity {
         sunRise = result.getString("sunrise");
         return sunRise;
     }
-    public String getSunSet() throws JSONException {
+    public String getSunset() throws JSONException {
         sunSet = result.getString("sunset");
         return sunSet;
     }
