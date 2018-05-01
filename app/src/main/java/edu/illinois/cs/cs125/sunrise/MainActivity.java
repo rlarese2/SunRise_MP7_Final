@@ -26,6 +26,8 @@ import org.json.JSONArray;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
@@ -50,8 +52,16 @@ public class MainActivity extends AppCompatActivity {
     public String latitudeInput;
     public String longitudeInput;
 
+    /** Default logging tag for messages from the main activity. */
+    private static final String TAG = "MP7:Sunrise";
+
+    /** Request queue for our API requests. */
+    private static RequestQueue requestQueue;
+
+    /**
     public MainActivity() throws JSONException {
     }
+     */
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,7 +109,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     JSONObject json;
-    public void startAPICall() {
+    void startAPICall() {
         try {
             JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
                     Request.Method.GET,
@@ -109,13 +119,15 @@ public class MainActivity extends AppCompatActivity {
                         @Override
                         public void onResponse(final JSONObject response) {
                             json = response;
+                            Log.d(TAG, response.toString());
                         }
                     }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(final VolleyError error) {
-                }
-            });
-            //RequestQueue.add(jsonObjectRequest);
+                        @Override
+                        public void onErrorResponse(final VolleyError error) {
+                            Log.d(TAG, error.toString());
+                    }
+                });
+            requestQueue.add(jsonObjectRequest);
         } catch (Exception e) {
             e.printStackTrace();
         }
