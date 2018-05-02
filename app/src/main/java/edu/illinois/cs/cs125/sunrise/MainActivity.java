@@ -60,8 +60,6 @@ public class MainActivity extends AppCompatActivity {
     public String dayLength;
     public String temp;
 
-    String weatherAPIKey = "e049a8906356a20c54f12895e785111f";
-
     TextView RISE;
     TextView SET;
     TextView LENGTH;
