@@ -58,13 +58,19 @@ public class MainActivity extends AppCompatActivity {
     public String sunRise;
     public String sunSet;
     public String dayLength;
+    public String temp;
+
+    String weatherAPIKey = "e049a8906356a20c54f12895e785111f";
 
     TextView RISE;
     TextView SET;
     TextView LENGTH;
+    TextView weatherTemp1;
+    TextView coorD;
 
     public String latitudeInput;
     public String longitudeInput;
+    public String ZIP;
 
     /** Request queue for our API requests. */
     private static RequestQueue requestQueue;
@@ -90,20 +96,24 @@ public class MainActivity extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Please enter the Coordinates of your location", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                Toast.makeText(MainActivity.this, "Please enter your Zip Code to find your Coordinates", Toast.LENGTH_LONG).show();
+                //Snackbar.make(view, "Please enter your Zip Code to find your Coordinates", Snackbar.LENGTH_LONG)
+                        //.setAction("Action", null).show();
                     try {
                         TextView longitude = (TextView) findViewById(R.id.longitude);
                         longitudeInput = longitude.getText().toString();
                         TextView latitude = (TextView) findViewById(R.id.latitude);
                         latitudeInput = latitude.getText().toString();
+
+                        TextView zipCode = (TextView) findViewById(R.id.ZIPCODE);
+                        ZIP = zipCode.getText().toString();
                     } catch(Exception e) {
-                        longitudeInput = "88.2272";
+                        longitudeInput = "-88.2272";
                         latitudeInput = "40.1020";
                     }
 
                 try {
-                    startAPICall();
+                    startAPICall1();
 
                     String sunriseTxt = getSunRise();
                     String sunsetTxt = getSunset();
@@ -114,6 +124,21 @@ public class MainActivity extends AppCompatActivity {
                     SET.setText(sunsetTxt);
                     RISE.setText(sunriseTxt);
                     LENGTH.setText(daylengthTxt);
+
+                } catch(Exception e) {
+                    Snackbar.make(view, "Please re-enter the Zipcode & Coordinates", Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show();
+                }
+                try {
+                    startAPICall2();
+                    String tempTxt = getTemp();
+                    Log.d(TAG,"temperature worked");
+                    weatherTemp1 = (TextView) findViewById(R.id.wTemp);
+                    weatherTemp1.setText(tempTxt);
+
+                    String ZipcodeCoord = getCOORD();
+                    coorD = (TextView) findViewById(R.id.COORD);
+                    coorD.setText(ZipcodeCoord);
 
                 } catch(Exception e) {
                     Snackbar.make(view, "Please re-enter the Coordinates", Snackbar.LENGTH_LONG)
@@ -145,7 +170,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     JSONObject json;
-    void startAPICall() {
+    void startAPICall1() {
         try {
             JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
                     Request.Method.GET,
@@ -197,5 +222,59 @@ public class MainActivity extends AppCompatActivity {
         JSONObject result = this.getResult();
         dayLength = result.getString("day_length");
         return "The total time of daylight is " + dayLength + " hours";
+    }
+
+
+
+
+    JSONObject json2;
+    void startAPICall2() {
+        try {
+            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
+                    Request.Method.GET,
+                    "http://api.openweathermap.org/data/2.5/weather?zip=" + ZIP + ",us&appid=" + weatherAPIKey,
+                    null,
+                    new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(final JSONObject response) {
+                            json2 = response;
+                            Log.d(TAG, response.toString());
+                        }
+                    }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(final VolleyError error) {
+                    Log.d(TAG, error.toString());
+                }
+            });
+            requestQueue.add(jsonObjectRequest);
+        } catch (Exception e) {
+            e.printStackTrace();
+            Toast.makeText(MainActivity.this, "Error", Toast.LENGTH_LONG).show();
+        }
+    }
+
+
+    public JSONObject getResult1() {
+        JSONObject result;
+        try {
+            result = json2.getJSONObject("main");
+            return result;
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public String getTemp() throws JSONException {
+        JSONObject result = this.getResult1();
+        double tempD = result.getDouble("temp");
+        int tempI = (int) (tempD - 273) * 9 / 5 + 32;
+        return "The average temperature is " + tempI + " Degrees Fahrenheit";
+    }
+    public String getCOORD() throws JSONException {
+        JSONObject result = json2.getJSONObject("coord");
+        String lng = result.getString("lon");
+        String lat = result.getString("lat");
+        return "Your latitude is: " + lat + " degrees and your longitude is: " + lng + " degrees";
     }
 }
