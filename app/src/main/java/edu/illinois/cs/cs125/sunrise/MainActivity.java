@@ -57,17 +57,21 @@ public class MainActivity extends AppCompatActivity {
     public String latitudeInput;
     public String longitudeInput;
 
-    /** Default logging tag for messages from the main activity. */
-    private static final String TAG = "MP7:Sunrise";
-
     /** Request queue for our API requests. */
     private static RequestQueue requestQueue;
+
+    /** Default logging tag for messages from the main activity. */
+    private static final String TAG = "MP7:Sunrise";
 
     public MainActivity() throws JSONException {
      }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        /** Request queue for our API requests. */
+        requestQueue = Volley.newRequestQueue(this);
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -81,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
                 try {
                     startAPICall();
-                    /**
+
                     String sunriseTxt = getSunRise();
                     String sunsetTxt = getSunset();
                     String daylengthTxt = getDayLength();
@@ -89,9 +93,9 @@ public class MainActivity extends AppCompatActivity {
                     RISE = (TextView) findViewById(R.id.Sunrise);
                     LENGTH = (TextView) findViewById(R.id.Daylength);
                     SET.setText(sunsetTxt);
-                    RISE.setText(sunsetTxt);
+                    RISE.setText(sunriseTxt);
                     LENGTH.setText(daylengthTxt);
-                     */
+
                 } catch(Exception e) {
                     Snackbar.make(view, "Please re-enter the Coordinates", Snackbar.LENGTH_LONG)
                             .setAction("Action", null).show();
@@ -147,8 +151,8 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    JSONObject result;
     public JSONObject getResult() {
+        JSONObject result;
         try {
             result = json.getJSONObject("results");
             return result;
@@ -159,15 +163,20 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public String getSunRise() throws JSONException {
+        JSONObject result = this.getResult();
         sunRise = result.getString("sunrise");
-        return sunRise;
+        Log.d(TAG,sunRise);
+        return "The sun rises at " + sunRise;
     }
     public String getSunset() throws JSONException {
+        JSONObject result = this.getResult();
         sunSet = result.getString("sunset");
-        return sunSet;
+        Log.d(TAG,sunSet);
+        return "The sun sets at " + sunSet;
     }
     public String getDayLength() throws JSONException {
+        JSONObject result = this.getResult();
         dayLength = result.getString("day_length");
-        return dayLength;
+        return "The total time of daylight is " + dayLength + " hours";
     }
 }
