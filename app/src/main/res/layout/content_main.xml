@@ -9,6 +9,8 @@
     tools:showIn="@layout/activity_main">
 
     <TextView
+        android:textStyle="bold"
+        android:textSize="24sp"
         android:id="@+id/Prompt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -22,12 +24,16 @@
         app:layout_constraintVertical_bias="0.13" />
 
     <Button
+        android:textStyle="italic"
+        android:textSize="22sp"
         android:id="@+id/button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Get Time" />
 
     <EditText
+        android:typeface="serif"
+        android:textStyle="italic"
         android:id="@+id/latitude"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -40,6 +46,8 @@
         app:layout_constraintVertical_bias="0.2" />
 
     <EditText
+        android:textStyle="italic"
+        android:typeface="serif"
         android:id="@+id/longitude"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -52,6 +60,8 @@
         app:layout_constraintVertical_bias="0.28" />
 
     <EditText
+        android:textStyle="italic"
+        android:typeface="serif"
         android:id="@+id/ZIPCODE"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -64,6 +74,9 @@
         app:layout_constraintVertical_bias="0.36" />
 
     <TextView
+        android:textSize="14sp"
+        android:typeface="serif"
+        android:textStyle="bold"
         android:id="@+id/COORD"
         android:layout_width="wrap_content"
         android:layout_height="19dp"
@@ -77,6 +90,9 @@
         app:layout_constraintVertical_bias="0.47" />
 
     <TextView
+        android:textSize="14sp"
+        android:typeface="serif"
+        android:textStyle="bold"
         android:id="@+id/Sunrise"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -90,6 +106,9 @@
         app:layout_constraintVertical_bias="0.57" />
 
     <TextView
+        android:textSize="14sp"
+        android:typeface="serif"
+        android:textStyle="bold"
         android:id="@+id/Sunset"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -103,6 +122,9 @@
         app:layout_constraintVertical_bias="0.67" />
 
     <TextView
+        android:textSize="14sp"
+        android:typeface="serif"
+        android:textStyle="bold"
     android:id="@+id/Daylength"
     android:layout_width="wrap_content"
     android:layout_height="19dp"
@@ -116,6 +138,9 @@
     app:layout_constraintVertical_bias="0.77" />
 
     <TextView
+        android:textSize="14sp"
+        android:typeface="serif"
+        android:textStyle="bold"
         android:id="@+id/wTemp"
         android:layout_width="wrap_content"
         android:layout_height="19dp"
