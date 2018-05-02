@@ -8,6 +8,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.app.Activity;
 
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -18,6 +19,14 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
+import android.widget.ImageView;
+
+import android.app.Activity;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
+import android.os.Bundle;
+import android.widget.ImageView;
 
 import org.json.JSONObject;
 import org.json.JSONStringer;
@@ -83,6 +92,16 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Snackbar.make(view, "Please enter the Coordinates of your location", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
+                    try {
+                        TextView longitude = (TextView) findViewById(R.id.longitude);
+                        longitudeInput = longitude.getText().toString();
+                        TextView latitude = (TextView) findViewById(R.id.latitude);
+                        latitudeInput = latitude.getText().toString();
+                    } catch(Exception e) {
+                        longitudeInput = "88.2272";
+                        latitudeInput = "40.1020";
+                    }
+
                 try {
                     startAPICall();
 
@@ -130,7 +149,7 @@ public class MainActivity extends AppCompatActivity {
         try {
             JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
                     Request.Method.GET,
-                    "https://api.sunrise-sunset.org/json?lat=36.7201600&lng=-4.4203400",
+                    "https://api.sunrise-sunset.org/json?lat=" + latitudeInput + "&lng=" + longitudeInput,
                     null,
                     new Response.Listener<JSONObject>() {
                         @Override
