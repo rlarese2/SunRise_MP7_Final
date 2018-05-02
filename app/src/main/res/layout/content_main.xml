@@ -24,6 +24,8 @@
         app:layout_constraintVertical_bias="0.13" />
 
     <Button
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:textColor="@android:color/white"
         android:textStyle="italic"
         android:textSize="22sp"
         android:id="@+id/button"
